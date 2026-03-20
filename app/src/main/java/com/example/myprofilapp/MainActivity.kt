@@ -1,5 +1,6 @@
 package com.example.myprofilapp
 
+import ProfileViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,31 +9,33 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myprofilapp.ui.theme.MyProfilAppTheme
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         setContent {
-            MyProfilAppTheme {
+            val viewModel: ProfileViewModel = viewModel()
+            val uiState by viewModel.uiState.collectAsState()
 
-                Scaffold(
-                    modifier = Modifier.fillMaxSize()
-                ) { innerPadding ->
-
+            MyProfilAppTheme(
+                darkTheme = uiState.isDarkMode
+            ) {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainScreen(
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        viewModel = viewModel
                     )
                 }
             }
@@ -41,104 +44,118 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    viewModel: ProfileViewModel
+) {
+
+    // 🔥 ambil semua data dari 1 state
+    val uiState by viewModel.uiState.collectAsState()
+
+    // 🔥 state hoisting
+    var inputName by remember { mutableStateOf(uiState.name) }
+    var inputBio by remember { mutableStateOf(uiState.bio) }
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(20.dp),
-
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        ProfileHeader()
+        ProfileHeader(
+            name = uiState.name,
+            bio = uiState.bio
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        ProfileCard()
+        ProfileCard(
+            email = uiState.email,
+            phone = uiState.phone,
+            location = uiState.location
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(onClick = {}) {
-            Text("Edit Profile")
-        }
-    }
-}
-
-@Composable
-fun ProfileHeader() {
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
-
-            Image(
-                painter = painterResource(id = R.drawable.profile),
-                contentDescription = "Profile Picture",
-
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape)
-            )
-        }
+        OutlinedTextField(
+            value = inputName,
+            onValueChange = { inputName = it },
+            label = { Text("Name") },
+            modifier = Modifier.fillMaxWidth()
+        )
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(
-            text = "Exaudi Amin Hutasoit",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold
+        OutlinedTextField(
+            value = inputBio,
+            onValueChange = { inputBio = it },
+            label = { Text("Bio") },
+            modifier = Modifier.fillMaxWidth()
         )
 
-        Text(
-            text = "Mahasiswa Informatika ITERA",
-            fontSize = 14.sp
-        )
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text("Dark Mode")
+            Spacer(modifier = Modifier.width(10.dp))
+            Switch(
+                checked = uiState.isDarkMode,
+                onCheckedChange = {
+                    viewModel.toggleTheme()
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Button(onClick = {
+            viewModel.updateProfile(inputName, inputBio)
+        }) {
+            Text("Save Profile")
+        }
     }
 }
 
 @Composable
-fun ProfileCard() {
+fun ProfileHeader(name: String, bio: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-    Card(
-        modifier = Modifier.fillMaxWidth()
-    ) {
+        Image(
+            painter = painterResource(id = R.drawable.profile),
+            contentDescription = null,
+            modifier = Modifier
+                .size(120.dp)
+                .clip(CircleShape)
+        )
 
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
+        Spacer(modifier = Modifier.height(10.dp))
 
-            InfoItem("Email", "exaudi.123140161@student.itera.ac.id")
+        Text(text = name, fontSize = 22.sp)
+        Text(text = bio, fontSize = 14.sp)
+    }
+}
 
-            InfoItem("Phone", "0895323566599")
-
-            InfoItem("Location", "Lampung")
+@Composable
+fun ProfileCard(email: String, phone: String, location: String) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            InfoItem("Email", email)
+            InfoItem("Phone", phone)
+            InfoItem("Location", location)
         }
     }
 }
 
 @Composable
 fun InfoItem(label: String, value: String) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(6.dp),
-
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-
-        Text(
-            label,
-            modifier = Modifier.weight(1f)
-        )
-
-        Text(
-            text = value,
-            modifier = Modifier.weight(2f))
+        Text(label, modifier = Modifier.weight(1f))
+        Text(value, modifier = Modifier.weight(2f))
     }
 }
