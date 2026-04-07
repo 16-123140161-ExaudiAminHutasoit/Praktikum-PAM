@@ -1,24 +1,24 @@
 package com.example.myprofilapp
 
-import ProfileViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myprofilapp.ui.theme.MyProfilAppTheme
+import navigation.NavGraph
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,18 +26,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val viewModel: ProfileViewModel = viewModel()
-            val uiState by viewModel.uiState.collectAsState()
-
-            MyProfilAppTheme(
-                darkTheme = uiState.isDarkMode
-            ) {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
-                        modifier = Modifier.padding(innerPadding),
-                        viewModel = viewModel
-                    )
-                }
+            MyProfilAppTheme {
+                NavGraph()
             }
         }
     }
@@ -52,14 +42,15 @@ fun MainScreen(
     // 🔥 ambil semua data dari 1 state
     val uiState by viewModel.uiState.collectAsState()
 
-    // 🔥 state hoisting
-    var inputName by remember { mutableStateOf(uiState.name) }
-    var inputBio by remember { mutableStateOf(uiState.bio) }
+    // 🔥 state hoisting - initialize with current values
+    var inputName by remember(uiState.name) { mutableStateOf(uiState.name) }
+    var inputBio by remember(uiState.bio) { mutableStateOf(uiState.bio) }
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(20.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -131,14 +122,17 @@ fun ProfileHeader(name: String, bio: String) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(text = name, fontSize = 22.sp)
-        Text(text = bio, fontSize = 14.sp)
+        Text(text = name, fontSize = 22.sp, style = MaterialTheme.typography.titleLarge)
+        Text(text = bio, fontSize = 14.sp, style = MaterialTheme.typography.bodyMedium)
     }
 }
 
 @Composable
 fun ProfileCard(email: String, phone: String, location: String) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
         Column(modifier = Modifier.padding(16.dp)) {
             InfoItem("Email", email)
             InfoItem("Phone", phone)
@@ -152,10 +146,10 @@ fun InfoItem(label: String, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(6.dp),
+            .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(label, modifier = Modifier.weight(1f))
-        Text(value, modifier = Modifier.weight(2f))
+        Text(label, modifier = Modifier.weight(1f), style = MaterialTheme.typography.labelLarge)
+        Text(value, modifier = Modifier.weight(2f), style = MaterialTheme.typography.bodyMedium)
     }
 }
