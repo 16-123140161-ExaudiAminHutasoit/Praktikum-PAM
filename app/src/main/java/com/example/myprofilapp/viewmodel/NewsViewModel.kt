@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 sealed class NewsUiState {
     object Loading : NewsUiState()
@@ -32,7 +33,11 @@ class NewsViewModel : ViewModel() {
                 val articles = repository.fetchArticles()
                 _uiState.value = NewsUiState.Success(articles)
             } catch (e: Exception) {
-                _uiState.value = NewsUiState.Error(e.localizedMessage ?: "Failed to fetch articles")
+                val errorMessage = when (e) {
+                    is UnknownHostException -> "No internet connection. Please check your network."
+                    else -> e.localizedMessage ?: "An unexpected error occurred"
+                }
+                _uiState.value = NewsUiState.Error(errorMessage)
             }
         }
     }
