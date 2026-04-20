@@ -39,10 +39,8 @@ fun MainScreen(
     viewModel: ProfileViewModel
 ) {
 
-    // 🔥 ambil semua data dari 1 state
     val uiState by viewModel.uiState.collectAsState()
 
-    // 🔥 state hoisting - initialize with current values
     var inputName by remember(uiState.name) { mutableStateOf(uiState.name) }
     var inputBio by remember(uiState.bio) { mutableStateOf(uiState.bio) }
 

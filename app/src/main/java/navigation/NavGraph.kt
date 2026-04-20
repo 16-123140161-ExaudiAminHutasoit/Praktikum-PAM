@@ -10,12 +10,14 @@ import androidx.navigation.compose.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import screen.*
 import com.example.myprofilapp.ProfileViewModel
+import com.example.myprofilapp.viewmodel.NewsViewModel
 
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
     
     val profileViewModel: ProfileViewModel = viewModel()
+    val newsViewModel: NewsViewModel = viewModel()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -57,7 +59,7 @@ fun NavGraph() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Notes.route) {
-                NotesScreen(navController)
+                NotesScreen(navController, newsViewModel)
             }
             composable(Screen.Favorites.route) {
                 FavoritesScreen()
@@ -65,16 +67,16 @@ fun NavGraph() {
             composable(Screen.Profile.route) {
                 ProfileScreen(profileViewModel)
             }
+            composable("news_detail/{articleId}") { backStackEntry ->
+                val articleId = backStackEntry.arguments?.getString("articleId")?.toIntOrNull() ?: 0
+                NewsDetailScreen(navController, newsViewModel, articleId)
+            }
             composable(Screen.Detail.route) { backStackEntry ->
                 val noteId = backStackEntry.arguments?.getString("noteId")
                 DetailScreen(navController, noteId)
             }
             composable(Screen.AddNote.route) {
                 AddEditNoteScreen(navController)
-            }
-            composable(Screen.EditNote.route) { backStackEntry ->
-                val noteId = backStackEntry.arguments?.getString("noteId")
-                AddEditNoteScreen(navController, noteId)
             }
         }
     }
