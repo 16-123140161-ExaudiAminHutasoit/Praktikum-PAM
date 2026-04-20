@@ -41,6 +41,8 @@ Aplikasi **News Reader** dengan integrasi API publik menggunakan **Ktor Client**
 <img width="813" height="938" alt="Cuplikan layar 2026-04-20 214943" src="https://github.com/user-attachments/assets/58b1bed5-a472-417f-b087-3151646dbed3" /> 
 <img width="668" height="715" alt="Cuplikan layar 2026-04-20 215921" src="https://github.com/user-attachments/assets/cea2f431-2244-4466-92d2-a1d14a7ec1da" /> 
 <img width="761" height="733" alt="Cuplikan layar 2026-04-20 220427" src="https://github.com/user-attachments/assets/2395d1e1-735a-49a6-bac4-e64adc231bef" />
+<img width="653" height="721" alt="Cuplikan layar 2026-04-20 220452" src="https://github.com/user-attachments/assets/220aba9a-955a-4e47-acbf-5c072c22dccd" />
 
+## Demo
 
- <img width="653" height="721" alt="Cuplikan layar 2026-04-20 220452" src="https://github.com/user-attachments/assets/220aba9a-955a-4e47-acbf-5c072c22dccd" />
+https://youtu.be/If5xlmXrVX4  
