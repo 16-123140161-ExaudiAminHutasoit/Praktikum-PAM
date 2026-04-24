@@ -49,3 +49,18 @@ Aplikasi **Notes App** dengan penyimpanan lokal menggunakan **SQLDelight** serta
 6. Pilih emulator/device Android, lalu aplikasi akan terbuka.
 
 ## Screenshot Aplikasi
+![Uploading image.png…]()
+
+![Uploading image.png…]()
+
+![Uploading image.png…]() 
+
+ ![Uploading image.png…]()
+
+ ![Uploading image.png…]()
+
+![Uploading image.png…]()
+
+![Uploading image.png…]()
+
+![Uploading image.png…]()
