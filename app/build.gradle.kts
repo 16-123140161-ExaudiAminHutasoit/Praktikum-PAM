@@ -66,6 +66,11 @@ dependencies {
     // DataStore
     implementation(libs.androidx.datastore.preferences)
 
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.core)
+
     // Ktor
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)

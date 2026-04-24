@@ -1,4 +1,4 @@
-# Tugas Praktikum 7
+# Tugas Praktikum 8
 
 **Nama : Exaudi Amin Hutasoit**
 
@@ -8,55 +8,47 @@
 
 ## Deskripsi
 
-Aplikasi **Notes App** dengan penyimpanan lokal menggunakan **SQLDelight** serta fitur **CRUD**, **Search**, **Settings**, dan konsep **Offline-First**.
+Upgrade aplikasi **Notes App** dengan implementasi **Dependency Injection (Koin)** dan **Platform Specific Features** (Device Info & Network Monitor). Aplikasi ini menggunakan arsitektur yang bersih dengan pemisahan tanggung jawab yang jelas.
 
 ## Fitur Utama
 
-* Menyimpan data catatan secara lokal menggunakan **SQLDelight**
-* Menampilkan daftar catatan pada halaman utama
-* Menambahkan catatan baru (**Create**)
-* Menampilkan detail catatan (**Read**)
-* Mengedit catatan yang sudah ada (**Update**)
-* Menghapus catatan (**Delete**)
-* Mencari catatan berdasarkan judul atau isi (**Search**)
-* Mengatur **theme** aplikasi (**Light**, **Dark**, **System**)
-* Mengatur **sort order** catatan (**Newest First**, **Oldest First**)
-* Mendukung konsep **offline-first**, sehingga data tetap dapat diakses tanpa internet
-* Menampilkan state **loading**, **empty**, dan **content**
+* **Koin Dependency Injection**: Semua dependensi (Database, Repository, Settings, Platform Features, ViewModel) dikelola dan di-inject menggunakan Koin.
+* **Platform Info (expect/actual)**: Menampilkan informasi perangkat (Model, Pabrikan, Versi OS) di halaman Settings.
+* **Network Monitor**: Menampilkan indikator status jaringan (Online/Offline) secara real-time di layar utama.
+* **Database SQLDelight**: Penyimpanan lokal persisten untuk catatan.
+* **Jetpack DataStore**: Menyimpan preferensi tema dan urutan sortir.
+* **Fitur CRUD & Search**: Membuat, membaca, memperbarui, menghapus, dan mencari catatan.
 
-## Database yang Digunakan
+## Arsitektur
 
-* **SQLDelight**
-* Schema tabel yang digunakan:
-    ```sql
-    CREATE TABLE NoteEntity (
-        id TEXT NOT NULL PRIMARY KEY,
-        title TEXT NOT NULL,
-        content TEXT NOT NULL,
-        isFavorite INTEGER NOT NULL DEFAULT 0,
-        createdAt INTEGER NOT NULL
-    );
-    ```
+Aplikasi menggunakan pola arsitektur **MVVM (Model-View-ViewModel)** dengan **Dependency Injection**:
+* **UI (Compose)**: Halaman aplikasi yang reaktif.
+* **ViewModel**: Mengelola state UI dan berinteraksi dengan repository.
+* **Repository**: Abstraksi sumber data (SQLDelight).
+* **Platform Module**: Implementasi fitur spesifik Android (Network & Device Info).
+* **DI Module (Koin)**: Mengatur siklus hidup dan penyediaan objek ke seluruh aplikasi.
 
-## Cara Menjalankan (Android Studio)
+## Database Schema (SQLDelight)
 
-1. Pilih branch **week-7**.
-2. Clone / download repository:
-    * `https://github.com/16-123140161-ExaudiAminHutasoit/Praktikum-PAM.git`
-3. Buka folder project tugas praktikum 7 menggunakan Android Studio.
-4. Tunggu proses **Gradle Sync** sampai selesai.
-5. Jalankan aplikasi dengan menekan tombol **Run**.
-6. Pilih emulator/device Android, lalu aplikasi akan terbuka.
+```sql
+CREATE TABLE NoteEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    isFavorite INTEGER NOT NULL DEFAULT 0,
+    createdAt INTEGER NOT NULL
+);
+```
+
+## Cara Menjalankan
+
+1. Pilih branch **week-8**.
+2. Clone repository dan buka di Android Studio.
+3. Tunggu proses **Gradle Sync**.
+4. Jalankan aplikasi pada emulator atau perangkat fisik.
 
 ## Screenshot Aplikasi
 
-| Deskripsi | Screenshot |
-|---|---|
-| Home Screen | ![Home](1.png) |
-| Search Feature | ![Search](2.png) |
-| Loading State | ![Loading](3.png) |
-| Add Note | ![Add](4.png) |
-| Edit Note | ![Edit](5.png) |
-| Settings | ![Settings](6.png) |
-| Dark Mode | ![Dark](7.png) |
-| Detail Screen | ![Detail](8.png) |
+| Network Indicator (Online) | Network Indicator (Offline) | Device Info (Settings) |
+|---|---|---|
+| ![Online](screenshot_online.png) | ![Offline](screenshot_offline.png) | ![Device Info](screenshot_device_info.png) |

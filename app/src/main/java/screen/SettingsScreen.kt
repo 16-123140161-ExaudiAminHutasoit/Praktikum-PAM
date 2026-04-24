@@ -2,7 +2,8 @@ package screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,6 +19,8 @@ import com.example.myprofilapp.NoteViewModel
 fun SettingsScreen(navController: NavController, viewModel: NoteViewModel) {
     val currentTheme by viewModel.themeModeFlow.collectAsState(initial = "system")
     val currentSortOrder by viewModel.sortOrderFlow.collectAsState(initial = "newest")
+    
+    val deviceInfo = viewModel.deviceInfo
 
     Scaffold(
         topBar = {
@@ -25,7 +28,7 @@ fun SettingsScreen(navController: NavController, viewModel: NoteViewModel) {
                 title = { Text("Settings", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -64,7 +67,38 @@ fun SettingsScreen(navController: NavController, viewModel: NoteViewModel) {
                     }
                 }
             }
+
+            // DEVICE INFO SECTION (Week 8 Task)
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f)
+                )
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Default.Info, contentDescription = null)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = "Device Information", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    DeviceInfoRow(label = "Manufacturer", value = deviceInfo.getManufacturer())
+                    DeviceInfoRow(label = "Model", value = deviceInfo.getModel())
+                    DeviceInfoRow(label = "OS Version", value = "Android ${deviceInfo.getOsVersion()}")
+                }
+            }
         }
+    }
+}
+
+@Composable
+fun DeviceInfoRow(label: String, value: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = label, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(text = value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
     }
 }
 

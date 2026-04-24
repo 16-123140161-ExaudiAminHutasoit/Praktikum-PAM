@@ -7,9 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myprofilapp.ui.theme.MyProfilAppTheme
 import navigation.NavGraph
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +17,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val noteViewModel: NoteViewModel = viewModel()
+            // MENGGUNAKAN koinViewModel() BUKAN viewModel()
+            // Agar semua dependency (SQLDelight, DataStore, dll) disuntikkan secara otomatis
+            val noteViewModel: NoteViewModel = koinViewModel()
             val themeMode by noteViewModel.themeModeFlow.collectAsState(initial = "system")
             
             val useDarkTheme = when (themeMode) {

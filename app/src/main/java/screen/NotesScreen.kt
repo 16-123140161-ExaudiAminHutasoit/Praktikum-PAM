@@ -1,5 +1,6 @@
 package screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +25,7 @@ import navigation.Screen
 fun NotesScreen(navController: NavController, viewModel: NoteViewModel) {
     val uiState by viewModel.notesState.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
+    val isOnline by viewModel.isOnline.collectAsState()
 
     Scaffold(
         topBar = {
@@ -36,6 +38,23 @@ fun NotesScreen(navController: NavController, viewModel: NoteViewModel) {
                         }
                     }
                 )
+                
+                // INDIKATOR JARINGAN YANG LEBIH JELAS (TUGAS MINGGU 8)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(if (isOnline) Color(0xFF4CAF50) else Color.Red)
+                        .padding(vertical = 4.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = if (isOnline) "STATAUS: ONLINE" else "STATUS: OFFLINE",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { viewModel.onSearchQueryChange(it) },
@@ -65,23 +84,13 @@ fun NotesScreen(navController: NavController, viewModel: NoteViewModel) {
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
             when (val state = uiState) {
                 is NotesUiState.Loading -> {
-                    // UI LOADING YANG DISESUAIKAN DENGAN GAMBAR
                     Column(
                         modifier = Modifier.align(Alignment.Center),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         CircularProgressIndicator()
                         Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            text = "Loading notes...",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
-                        )
-                        Text(
-                            text = "Mengambil data dari database...",
-                            fontSize = 14.sp,
-                            color = Color.Gray
-                        )
+                        Text(text = "Loading notes...", fontWeight = FontWeight.Bold)
                     }
                 }
                 is NotesUiState.Empty -> {

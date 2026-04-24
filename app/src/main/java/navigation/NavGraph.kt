@@ -7,18 +7,19 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
-import androidx.lifecycle.viewmodel.compose.viewModel
 import screen.*
 import com.example.myprofilapp.ProfileViewModel
 import com.example.myprofilapp.NoteViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
     
-    // NoteViewModel is now an AndroidViewModel, it will be shared across screens
-    val noteViewModel: NoteViewModel = viewModel()
-    val profileViewModel: ProfileViewModel = viewModel()
+    // Using koinViewModel() to inject the shared NoteViewModel
+    val noteViewModel: NoteViewModel = koinViewModel()
+    // For now keeping ProfileViewModel as is or you can also move it to Koin later
+    val profileViewModel: ProfileViewModel = koinViewModel() 
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -63,9 +64,8 @@ fun NavGraph() {
                 NotesScreen(navController, noteViewModel)
             }
             composable(Screen.Favorites.route) {
-                // For simplicity, we use a filtered view of Notes or a dedicated screen
-                // Here we can reuse NotesScreen logic or create a specific one
-                NotesScreen(navController, noteViewModel) // In a real app, maybe filter by isFavorite
+                // You can filter favorites here or reuse screen
+                NotesScreen(navController, noteViewModel)
             }
             composable(Screen.Profile.route) {
                 ProfileScreen(profileViewModel)
