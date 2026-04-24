@@ -4,7 +4,7 @@
 
 **NIM : 123140161**
 
-**Kelas : PAM RA**
+**Kelas : PAM RB**
 
 ## Deskripsi
 
@@ -50,9 +50,6 @@ Aplikasi **Notes App** dengan penyimpanan lokal menggunakan **SQLDelight** serta
 
 ## Screenshot Aplikasi
 
-<<<<<<< HEAD
-
-=======
 | Deskripsi | Screenshot |
 |---|---|
 | Home Screen | ![Home](1.png) |
@@ -63,4 +60,3 @@ Aplikasi **Notes App** dengan penyimpanan lokal menggunakan **SQLDelight** serta
 | Settings | ![Settings](6.png) |
 | Dark Mode | ![Dark](7.png) |
 | Detail Screen | ![Detail](8.png) |
->>>>>>> 1d99a5c (Update README KU)
