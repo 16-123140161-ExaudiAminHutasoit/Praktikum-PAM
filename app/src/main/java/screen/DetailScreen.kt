@@ -9,11 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.myprofilapp.NoteViewModel
 import navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navController: NavController, noteId: String?) {
+fun DetailScreen(navController: NavController, viewModel: NoteViewModel, noteId: String?) {
+    val note = noteId?.let { viewModel.getNoteById(it) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -39,9 +42,13 @@ fun DetailScreen(navController: NavController, noteId: String?) {
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            Text(text = "Note ID: $noteId", style = MaterialTheme.typography.headlineMedium)
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Content for note $noteId will be here.", style = MaterialTheme.typography.bodyLarge)
+            if (note != null) {
+                Text(text = note.title, style = MaterialTheme.typography.headlineMedium)
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = note.content, style = MaterialTheme.typography.bodyLarge)
+            } else {
+                Text(text = "Note not found", style = MaterialTheme.typography.headlineMedium)
+            }
         }
     }
 }

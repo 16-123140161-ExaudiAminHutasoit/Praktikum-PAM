@@ -10,14 +10,15 @@ import androidx.navigation.compose.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import screen.*
 import com.example.myprofilapp.ProfileViewModel
-import com.example.myprofilapp.viewmodel.NewsViewModel
+import com.example.myprofilapp.NoteViewModel
 
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
     
+    // NoteViewModel is now an AndroidViewModel, it will be shared across screens
+    val noteViewModel: NoteViewModel = viewModel()
     val profileViewModel: ProfileViewModel = viewModel()
-    val newsViewModel: NewsViewModel = viewModel()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -59,24 +60,29 @@ fun NavGraph() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Notes.route) {
-                NotesScreen(navController, newsViewModel)
+                NotesScreen(navController, noteViewModel)
             }
             composable(Screen.Favorites.route) {
-                FavoritesScreen()
+                // For simplicity, we use a filtered view of Notes or a dedicated screen
+                // Here we can reuse NotesScreen logic or create a specific one
+                NotesScreen(navController, noteViewModel) // In a real app, maybe filter by isFavorite
             }
             composable(Screen.Profile.route) {
                 ProfileScreen(profileViewModel)
             }
-            composable("news_detail/{articleId}") { backStackEntry ->
-                val articleId = backStackEntry.arguments?.getString("articleId")?.toIntOrNull() ?: 0
-                NewsDetailScreen(navController, newsViewModel, articleId)
+            composable("settings") {
+                SettingsScreen(navController, noteViewModel)
             }
             composable(Screen.Detail.route) { backStackEntry ->
                 val noteId = backStackEntry.arguments?.getString("noteId")
-                DetailScreen(navController, noteId)
+                DetailScreen(navController, noteViewModel, noteId)
             }
             composable(Screen.AddNote.route) {
-                AddEditNoteScreen(navController)
+                AddEditNoteScreen(navController, noteViewModel)
+            }
+            composable(Screen.EditNote.route) { backStackEntry ->
+                val noteId = backStackEntry.arguments?.getString("noteId")
+                AddEditNoteScreen(navController, noteViewModel, noteId)
             }
         }
     }

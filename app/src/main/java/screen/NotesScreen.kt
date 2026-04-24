@@ -4,121 +4,102 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import com.example.myprofilapp.model.Article
-import com.example.myprofilapp.viewmodel.NewsUiState
-import com.example.myprofilapp.viewmodel.NewsViewModel
+import com.example.myprofilapp.NoteViewModel
+import com.example.myprofilapp.NotesUiState
 import navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotesScreen(navController: NavController, viewModel: NewsViewModel) {
-    val uiState by viewModel.uiState.collectAsState()
-    val isRefreshing = uiState is NewsUiState.Loading
+fun NotesScreen(navController: NavController, viewModel: NoteViewModel) {
+    val uiState by viewModel.notesState.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("News Reader") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+            Column {
+                TopAppBar(
+                    title = { Text("My Notes") },
+                    actions = {
+                        IconButton(onClick = { navController.navigate("settings") }) {
+                            Icon(Icons.Default.Settings, contentDescription = "Settings")
+                        }
+                    }
                 )
-            )
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { viewModel.onSearchQueryChange(it) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    placeholder = { Text("Search notes...") },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                    trailingIcon = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
+                                Icon(Icons.Default.Close, contentDescription = "Clear")
+                            }
+                        }
+                    },
+                    shape = MaterialTheme.shapes.medium,
+                    singleLine = true
+                )
+            }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /* Logic for Add if needed */ }) {
+            FloatingActionButton(onClick = { navController.navigate(Screen.AddNote.route) }) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }
     ) { innerPadding ->
-        PullToRefreshBox(
-            isRefreshing = isRefreshing,
-            onRefresh = { viewModel.fetchNews() },
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) {
+        Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
             when (val state = uiState) {
-                is NewsUiState.Loading -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
-                    }
+                is NotesUiState.Loading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
-                is NewsUiState.Success -> {
+                is NotesUiState.Empty -> {
+                    Text(
+                        text = if (searchQuery.isEmpty()) "No notes yet. Tap + to add one!" else "No notes match your search.",
+                        modifier = Modifier.align(Alignment.Center),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+                is NotesUiState.Success -> {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(state.articles) { article ->
-                            Card(
-                                modifier = Modifier
-                                    .padding(horizontal = 12.dp, vertical = 8.dp)
-                                    .fillMaxWidth()
-                                    .clickable { 
-                                        navController.navigate("news_detail/${article.id}") 
-                                    },
-                                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                            ) {
-                                Column {
-                                    AsyncImage(
-                                        model = article.imageUrl,
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(180.dp),
-                                        contentScale = ContentScale.Crop
-                                    )
-                                    Column(modifier = Modifier.padding(16.dp)) {
-                                        Text(
-                                            text = article.title, 
-                                            style = MaterialTheme.typography.titleMedium,
-                                            color = MaterialTheme.colorScheme.primary
-                                        )
-                                        Spacer(modifier = Modifier.height(4.dp))
-                                        Row(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.SpaceBetween
-                                        ) {
-                                            Text(text = article.author, style = MaterialTheme.typography.labelSmall)
-                                            Text(text = article.date, style = MaterialTheme.typography.labelSmall)
-                                        }
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Text(
-                                            text = article.body, 
-                                            style = MaterialTheme.typography.bodySmall, 
-                                            maxLines = 2
+                        items(state.notes) { note ->
+                            // note.isFavorite is now a Long (1L for true, 0L for false)
+                            val isFavorite = note.isFavorite != 0L
+                            
+                            ListItem(
+                                headlineContent = { Text(note.title) },
+                                supportingContent = { Text(note.content, maxLines = 2) },
+                                leadingContent = {
+                                    IconButton(onClick = { viewModel.toggleFavorite(note) }) {
+                                        Icon(
+                                            imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                            contentDescription = "Favorite",
+                                            tint = if (isFavorite) Color.Red else Color.Gray
                                         )
                                     }
+                                },
+                                trailingContent = {
+                                    IconButton(onClick = { viewModel.deleteNote(note.id) }) {
+                                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color.Red)
+                                    }
+                                },
+                                modifier = Modifier.clickable {
+                                    navController.navigate(Screen.Detail.createRoute(note.id))
                                 }
-                            }
-                        }
-                    }
-                }
-                is NewsUiState.Error -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Error: ${state.message}",
-                            color = MaterialTheme.colorScheme.error,
-                            modifier = Modifier.padding(16.dp)
-                        )
-                        Button(onClick = { viewModel.fetchNews() }) {
-                            Text("Retry")
+                            )
+                            HorizontalDivider()
                         }
                     }
                 }

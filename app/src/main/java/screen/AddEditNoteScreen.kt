@@ -9,15 +9,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.myprofilapp.NoteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditNoteScreen(
     navController: NavController, 
+    viewModel: NoteViewModel,
     noteId: String? = null
 ) {
-    var title by remember { mutableStateOf(if (noteId != null) "Editing $noteId" else "") }
-    var content by remember { mutableStateOf("") }
+    val existingNote = noteId?.let { viewModel.getNoteById(it) }
+    
+    var title by remember { mutableStateOf(existingNote?.title ?: "") }
+    var content by remember { mutableStateOf(existingNote?.content ?: "") }
     
     val isEdit = noteId != null
 
@@ -32,7 +36,13 @@ fun AddEditNoteScreen(
                 },
                 actions = {
                     IconButton(onClick = { 
-                        // Simplified: just go back
+                        if (isEdit && noteId != null) {
+                            // Konversi Long ke Boolean untuk parameter isFavorite
+                            val currentFavoriteStatus = (existingNote?.isFavorite ?: 0L) != 0L
+                            viewModel.updateNote(noteId, title, content, currentFavoriteStatus)
+                        } else {
+                            viewModel.addNote(title, content)
+                        }
                         navController.popBackStack() 
                     }) {
                         Icon(Icons.Default.Check, contentDescription = "Save")
@@ -47,11 +57,6 @@ fun AddEditNoteScreen(
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            if (isEdit) {
-                Text("Note ID: $noteId", style = MaterialTheme.typography.labelSmall)
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },

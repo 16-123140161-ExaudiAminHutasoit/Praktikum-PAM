@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqldelight)
 }
 
 android {
@@ -37,6 +38,14 @@ android {
     }
 }
 
+sqldelight {
+    databases {
+        create("NoteDatabase") {
+            packageName.set("com.example.myprofilapp.database")
+        }
+    }
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -49,6 +58,13 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
+
+    // SQLDelight
+    implementation(libs.sqldelight.android.driver)
+    implementation(libs.sqldelight.coroutines.extensions)
+
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
 
     // Ktor
     implementation(libs.ktor.client.core)
