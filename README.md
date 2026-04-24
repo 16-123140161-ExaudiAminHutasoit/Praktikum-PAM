@@ -60,3 +60,7 @@ Aplikasi **Notes App** dengan penyimpanan lokal menggunakan **SQLDelight** serta
 | Settings | ![Settings](6.png) |
 | Dark Mode | ![Dark](7.png) |
 | Detail Screen | ![Detail](8.png) |
+
+## Demo
+
+https://youtu.be/TOJ-9FblY3E 
