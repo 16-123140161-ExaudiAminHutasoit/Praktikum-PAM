@@ -4,4 +4,5 @@ interface DeviceInfo {
     fun getModel(): String
     fun getOsVersion(): String
     fun getManufacturer(): String
+    fun getBatteryLevel(): Int // Bonus Task
 }
