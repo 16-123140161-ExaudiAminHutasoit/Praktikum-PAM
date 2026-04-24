@@ -11,7 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myprofilapp.NoteViewModel
 import com.example.myprofilapp.NotesUiState
@@ -63,7 +65,24 @@ fun NotesScreen(navController: NavController, viewModel: NoteViewModel) {
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
             when (val state = uiState) {
                 is NotesUiState.Loading -> {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    // UI LOADING YANG DISESUAIKAN DENGAN GAMBAR
+                    Column(
+                        modifier = Modifier.align(Alignment.Center),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator()
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "Loading notes...",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp
+                        )
+                        Text(
+                            text = "Mengambil data dari database...",
+                            fontSize = 14.sp,
+                            color = Color.Gray
+                        )
+                    }
                 }
                 is NotesUiState.Empty -> {
                     Text(
@@ -75,7 +94,6 @@ fun NotesScreen(navController: NavController, viewModel: NoteViewModel) {
                 is NotesUiState.Success -> {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(state.notes) { note ->
-                            // note.isFavorite is now a Long (1L for true, 0L for false)
                             val isFavorite = note.isFavorite != 0L
                             
                             ListItem(

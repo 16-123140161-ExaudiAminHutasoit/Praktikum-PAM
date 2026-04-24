@@ -49,3 +49,14 @@ Aplikasi **Notes App** dengan penyimpanan lokal menggunakan **SQLDelight** serta
 6. Pilih emulator/device Android, lalu aplikasi akan terbuka.
 
 ## Screenshot Aplikasi
+
+| Deskripsi | Screenshot |
+|---|---|
+| Home Screen | ![Home](1.png) |
+| Search Feature | ![Search](2.png) |
+| Loading State | ![Loading](3.png) |
+| Add Note | ![Add](4.png) |
+| Edit Note | ![Edit](5.png) |
+| Settings | ![Settings](6.png) |
+| Dark Mode | ![Dark](7.png) |
+| Detail Screen | ![Detail](8.png) |

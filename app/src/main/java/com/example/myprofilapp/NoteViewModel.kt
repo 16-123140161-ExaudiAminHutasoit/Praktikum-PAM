@@ -7,6 +7,7 @@ import com.example.myprofilapp.database.DatabaseModule
 import com.example.myprofilapp.database.NoteEntity
 import com.example.myprofilapp.database.SettingsManager
 import com.example.myprofilapp.repository.NoteRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -40,6 +41,9 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         repository.getAllNotes(),
         sortOrderFlow
     ) { query, allNotes, sortOrder ->
+        // TAMBAHKAN DELAY DI SINI UNTUK SCREENSHOT (MISAL 3 DETIK)
+        delay(3000) 
+
         var filtered = if (query.isEmpty()) {
             allNotes
         } else {
@@ -49,7 +53,6 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        // Apply Sorting
         filtered = if (sortOrder == "oldest") {
             filtered.sortedBy { it.createdAt }
         } else {
@@ -59,53 +62,19 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         if (filtered.isEmpty()) NotesUiState.Empty else NotesUiState.Success(filtered)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), NotesUiState.Loading)
 
-    fun onSearchQueryChange(newQuery: String) {
-        _searchQuery.value = newQuery
-    }
-
+    // ... fungsi lainnya tetap sama ...
+    fun onSearchQueryChange(newQuery: String) { _searchQuery.value = newQuery }
     fun addNote(title: String, content: String) {
-        viewModelScope.launch {
-            repository.insertNote(
-                id = UUID.randomUUID().toString(),
-                title = title,
-                content = content,
-                isFavorite = false
-            )
-        }
+        viewModelScope.launch { repository.insertNote(UUID.randomUUID().toString(), title, content, false) }
     }
-
     fun updateNote(id: String, title: String, content: String, isFavorite: Boolean) {
-        viewModelScope.launch {
-            repository.insertNote(id, title, content, isFavorite)
-        }
+        viewModelScope.launch { repository.insertNote(id, title, content, isFavorite) }
     }
-
-    fun deleteNote(id: String) {
-        viewModelScope.launch {
-            repository.deleteNote(id)
-        }
-    }
-
+    fun deleteNote(id: String) { viewModelScope.launch { repository.deleteNote(id) } }
     fun toggleFavorite(note: NoteEntity) {
-        viewModelScope.launch {
-            val newFavoriteStatus = note.isFavorite == 0L
-            repository.insertNote(note.id, note.title, note.content, newFavoriteStatus)
-        }
+        viewModelScope.launch { repository.insertNote(note.id, note.title, note.content, note.isFavorite == 0L) }
     }
-
-    fun setThemeMode(mode: String) {
-        viewModelScope.launch {
-            settingsManager.setThemeMode(mode)
-        }
-    }
-
-    fun setSortOrder(order: String) {
-        viewModelScope.launch {
-            settingsManager.setSortOrder(order)
-        }
-    }
-
-    fun getNoteById(id: String): NoteEntity? {
-        return repository.getNoteById(id)
-    }
+    fun setThemeMode(mode: String) { viewModelScope.launch { settingsManager.setThemeMode(mode) } }
+    fun setSortOrder(order: String) { viewModelScope.launch { settingsManager.setSortOrder(order) } }
+    fun getNoteById(id: String): NoteEntity? { return repository.getNoteById(id) }
 }
