@@ -4,7 +4,7 @@
 
 **NIM : 123140161**
 
-**Kelas : PAM RB**
+**Kelas : PAM RA**
 
 ## Deskripsi
 
