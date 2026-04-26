@@ -73,9 +73,9 @@ graph TD
 
 ## Screenshot Aplikasi
 
-| Network ONLINE | Network OFFLINE | Device Information |
-|---|---|---|
-| ![Online](screenshot_online.png) | ![Offline](screenshot_offline.png) | ![Device Info](screenshot_device_info.png) |
+| Network ONLINE         | Network OFFLINE | Device Information |
+|------------------------|---|---|
+| ![Online](online.png)) | ![Offline](offline.png) | ![Device Info](device_info.png) |
 
 ---
 *Catatan: Video demo berdurasi 45 detik menunjukkan fitur CRUD, pencarian, perubahan tema, informasi perangkat, dan perubahan status jaringan (on/off).*
