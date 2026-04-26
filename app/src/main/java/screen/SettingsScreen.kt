@@ -68,7 +68,7 @@ fun SettingsScreen(navController: NavController, viewModel: NoteViewModel) {
                 }
             }
 
-            // DEVICE INFO SECTION (Week 8 Task)
+            // DEVICE INFO SECTION (Week 8 Task + Bonus Battery)
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -85,6 +85,8 @@ fun SettingsScreen(navController: NavController, viewModel: NoteViewModel) {
                     DeviceInfoRow(label = "Manufacturer", value = deviceInfo.getManufacturer())
                     DeviceInfoRow(label = "Model", value = deviceInfo.getModel())
                     DeviceInfoRow(label = "OS Version", value = "Android ${deviceInfo.getOsVersion()}")
+                    // BONUS: Battery Info
+                    DeviceInfoRow(label = "Battery Level", value = "${deviceInfo.getBatteryLevel()}%")
                 }
             }
         }

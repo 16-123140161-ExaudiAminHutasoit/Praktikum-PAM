@@ -4,7 +4,7 @@
 
 **NIM : 123140161**
 
-**Kelas : PAM RA**
+**Kelas : PAM RB**
 
 ## Deskripsi
 
@@ -12,17 +12,46 @@ Aplikasi **Notes App** telah ditingkatkan pada Minggu 8 dengan fokus pada implem
 
 ## Arsitektur Aplikasi
 
-Aplikasi ini menggunakan arsitektur **MVVM** yang digabungkan dengan **Dependency Injection (Koin)**.
+Aplikasi ini menggunakan arsitektur **MVVM** yang digabungkan dengan **Dependency Injection (Koin)** sesuai dengan skema berikut:
 
 ```mermaid
 graph TD
-    App[MyProfilApp Application] --> Koin[Koin DI Container]
-    Koin --> VM[NoteViewModel]
-    Koin --> Repo[NoteRepository]
-    Koin --> DB[SQLDelight NoteDatabase]
-    Koin --> DS[DataStore SettingsManager]
-    Koin --> Platform[Platform Module: DeviceInfo & NetworkMonitor]
-    VM --> UI[Jetpack Compose Screens]
+    %% Koin Layer
+    subgraph Koin [Koin Dependency Injection]
+        KM[Koin Modules]
+    end
+
+    %% UI Layer
+    subgraph UI [UI Layer]
+        direction LR
+        SS[Settings Screen]
+        NI[NetworkStatus Indicator]
+        NS[NotesScreen]
+    end
+
+    %% ViewModel Layer
+    subgraph VM_Layer [ViewModel Layer]
+        direction LR
+        NVM[NoteViewModel]
+    end
+
+    %% Platform Layer
+    subgraph Platform [Platform Layer]
+        direction LR
+        DI[DeviceInfo expect/actual]
+        NM[NetworkMonitor expect/actual]
+    end
+
+    %% Flow Panah
+    KM --> VM_Layer
+    KM --> Platform
+
+    SS --> NVM
+    NI --> NVM
+    NS --> NVM
+
+    NVM --> DI
+    NVM --> NM
 ```
 
 ## Fitur Utama (Minggu 8)
@@ -32,11 +61,11 @@ graph TD
     *   Implementasi `DeviceInfo` untuk mengambil informasi teknis hardware Android.
     *   Implementasi `NetworkMonitor` untuk memantau koneksi internet.
 3.  **Indikator Jaringan**: Banner status (ONLINE/OFFLINE) yang muncul di layar utama sesuai dengan kondisi internet perangkat.
-4.  **Informasi Perangkat**: Bagian baru di menu Settings yang menampilkan Manufaktur, Model, dan Versi OS perangkat.
+4.  **Informasi Perangkat**: Bagian baru di menu Settings yang menampilkan Manufaktur, Model, Versi OS, dan Level Baterai perangkat.
 
 ## Cara Menjalankan
 
-1. Pindah ke branch **week-8**.
+1. Pilih branch **week-8**.
 2. Buka proyek di Android Studio.
 3. Tunggu **Gradle Sync** hingga selesai.
 4. Jalankan aplikasi pada emulator atau perangkat Android asli.

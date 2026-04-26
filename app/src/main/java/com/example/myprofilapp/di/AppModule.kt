@@ -21,7 +21,7 @@ val appModule = module {
     single { NoteRepository(get()) }
 
     // Platform Features
-    single<DeviceInfo> { AndroidDeviceInfo() }
+    single<DeviceInfo> { AndroidDeviceInfo(androidContext()) }
     single<NetworkMonitor> { AndroidNetworkMonitor(androidContext()) }
 
     // ViewModels
