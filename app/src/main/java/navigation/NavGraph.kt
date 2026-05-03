@@ -89,6 +89,9 @@ fun NavGraph() {
             composable(Screen.Chat.route) {
                 ChatScreen(chatViewModel, onBackClick = { navController.popBackStack() })
             }
+            composable(Screen.Analysis.route) {
+                AnalysisScreen(chatViewModel, noteViewModel, onBackClick = { navController.popBackStack() })
+            }
         }
     }
 }

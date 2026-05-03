@@ -33,6 +33,9 @@ fun NotesScreen(navController: NavController, viewModel: NoteViewModel) {
                 TopAppBar(
                     title = { Text("My Notes") },
                     actions = {
+                        IconButton(onClick = { navController.navigate(Screen.Analysis.route) }) {
+                            Icon(Icons.Default.Info, contentDescription = "AI Analysis")
+                        }
                         IconButton(onClick = { navController.navigate(Screen.Chat.route) }) {
                             Icon(Icons.Default.Face, contentDescription = "AI Chat")
                         }

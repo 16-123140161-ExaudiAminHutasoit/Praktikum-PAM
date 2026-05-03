@@ -13,7 +13,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 
 class GeminiService(private val client: HttpClient) {
-    private val modelName = "gemini-2.5 -flash"
+    private val modelName = "gemini-2.5-flash"
     private val conversationHistory = mutableListOf<Content>()
 
     suspend fun generateContent(prompt: String): Result<String> = runCatching {
