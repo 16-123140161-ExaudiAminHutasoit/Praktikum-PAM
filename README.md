@@ -11,50 +11,30 @@ Integrasi AI (Google Gemini) ke dalam aplikasi Android "MyProfilApp" untuk fitur
 
 ---
 
-## Kriteria Penilaian & Implementasi
+## Fitur yang Dibuat
+- Integrasi AI API ke aplikasi
+- Mengirim prompt dari user ke AI
+- Menampilkan response AI ke UI
+- Loading state saat proses berjalan
+- Error handling jika request gagal
 
-### 1. AI Integration (30%)
-*   **Service Layer**: Menggunakan `GeminiService.kt` untuk menangani komunikasi API secara terpisah.
-*   **Networking**: Implementasi menggunakan **Ktor Client** dengan konfigurasi timeout dan `ContentNegotiation` JSON.
-*   **Dependency Injection**: Seluruh komponen didefinisikan dalam `AppModule.kt` menggunakan **Koin**.
+## Teknologi yang Digunakan
+- Kotlin Multiplatform / Android
+- Ktor Client
+- OpenAI API / Gemini API
+- Jetpack Compose
 
-### 2. Prompt Engineering (25%)
-*   **System Prompt**: Menggunakan instruksi sistem yang terdefinisi di `SystemPrompts.kt` untuk mengatur persona AI sebagai asisten aplikasi catatan yang profesional.
-*   **Model**: Menggunakan model terbaru `gemini-1.5-flash` untuk respon yang cepat dan akurat.
+## Cara Menjalankan
+1. Clone repository ini
+2. Tambahkan API Key pada `local.properties`
+3. Jalankan project di Android Studio
+4. Coba fitur AI pada aplikasi
 
-### 3. Error Handling (20%)
-*   **Graceful Handling**: Menangkap error jaringan, API limit (429), dan invalid key (403/404) menggunakan blok `runCatching`.
-*   **Retry Logic**: UI menyediakan tombol **"Retry"** jika terjadi kesalahan pengiriman pesan agar pengguna tidak perlu mengetik ulang.
-
-### 4. UI/UX (15%)
-*   **Loading State**: Implementasi `TypingIndicator` dengan animasi bergerak saat AI sedang memproses.
-*   **Responsive Chat**: Menggunakan chat bubble dengan perbedaan warna kontras antara user (Primary) dan AI (SurfaceVariant).
-*   **Clear Chat**: Fitur untuk menghapus riwayat percakapan.
-
-### 5. Code Quality (10%)
-*   **Architecture**: Mengikuti pola MVVM (Model-View-ViewModel) dengan pembagian folder `model`, `viewmodel`, `repository`, dan `network`.
-*   **Security**: API Key disimpan aman di `local.properties` dan diakses melalui `BuildConfig`.
-
----
-
-## Fitur Bonus (Bonus Points)
-*   **[v] Multi-turn Conversation (+5%)**: AI mampu mengingat konteks percakapan sebelumnya dalam satu sesi menggunakan riwayat pesan (`conversationHistory`).
-
----
-
-## Cara Instalasi
-
-1.  Clone repository ini dan masuk ke branch `week-9`.
-2.  Buka [Google AI Studio](https://aistudio.google.com/) untuk mendapatkan API Key.
-3.  Buka file `local.properties` di root project.
-4.  Tambahkan baris berikut:
-    ```properties
-    GEMINI_API_KEY=KODE_API_KEY_ANDA
-    ```
-5.  Lakukan **Build > Rebuild Project** di Android Studio.
-6.  Jalankan aplikasi dan klik ikon **AI Assistant (Wajah)** di Top Bar layar utama.
-
----
+## Tujuan Pembelajaran
+- Memahami cara kerja AI API
+- Belajar prompt engineering
+- Implementasi API pada aplikasi mobile
+- Menangani error dan loading state
 
 ## Screenshot Aplikasi
 
