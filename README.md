@@ -39,8 +39,11 @@ Fitur ini membantu pengguna dalam mengelola catatan, memberikan ringkasan, dan m
 
 ## Screenshot Aplikasi
 
-| 1. Input Expense | 2. Expense Summary | 3. Loading State | 4. AI Analysis | 5. Error Handling |
-|---|---|---|---|---|
-| <img src="https://github.com/user-attachments/assets/b64013c9-2152-40ca-b119-00e8826ee18f" width="180"/> | <img src="https://github.com/user-attachments/assets/84ff7855-8180-4893-8217-00228d37903a" width="180"/> | <img src="https://github.com/user-attachments/assets/d3339fd2-7753-41e2-b7d8-48154ad87b63" width="180"/> | <img src="https://github.com/user-attachments/assets/b64013c9-2152-40ca-b119-00e8826ee18f" width="180"/> | <img src="https://github.com/user-attachments/assets/d3339fd2-7753-41e2-b7d8-48154ad87b63" width="180"/> |
+| 1.Chat Interface | 2. Loading State | 3. Error Handling 
+|---|---|---|
+| <img width="475" height="1054" alt="Cuplikan layar 2026-05-03 212738" src="https://github.com/user-attachments/assets/e554a534-7751-49d3-9ac4-c122b23db088" />
+ | <img width="476" height="1052" alt="Cuplikan layar 2026-05-03 213051" src="https://github.com/user-attachments/assets/bd742f25-30b1-440d-81da-90410d13913b" />
+ | <img width="472" height="1053" alt="Cuplikan layar 2026-05-03 212903" src="https://github.com/user-attachments/assets/eff389ee-cd20-4d4c-9986-95f59c4847c7" />
+ | 
 
 ---
