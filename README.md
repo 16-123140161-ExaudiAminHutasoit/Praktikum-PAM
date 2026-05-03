@@ -1,4 +1,4 @@
-<img width="475" height="1054" alt="Cuplikan layar 2026-05-03 212738" src="https://github.com/user-attachments/assets/d3613eec-0a19-4e02-b481-a298b28542a4" /># Tugas Praktikum 9 - Pengembangan Aplikasi Mobile
+Tugas Praktikum 9 - Pengembangan Aplikasi Mobile
 
 **Nama : Exaudi Amin Hutasoit**  
 **NIM : 123140161**  
