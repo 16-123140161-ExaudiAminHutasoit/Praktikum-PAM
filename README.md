@@ -39,19 +39,8 @@ Fitur ini membantu pengguna dalam mengelola catatan, memberikan ringkasan, dan m
 
 ## Screenshot Aplikasi
 
-### Chat Interface
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/b64013c9-2152-40ca-b119-00e8826ee18f" width="250"/>
-</p>
-
-### Loading State
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/84ff7855-8180-4893-8217-00228d37903a" width="250"/>
-</p>
-
-### Error Handling
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/d3339fd2-7753-41e2-b7d8-48154ad87b63" width="250"/>
-</p>
+| 1. Input Expense | 2. Expense Summary | 3. Loading State | 4. AI Analysis | 5. Error Handling |
+|---|---|---|---|---|
+| <img src="https://github.com/user-attachments/assets/b64013c9-2152-40ca-b119-00e8826ee18f" width="180"/> | <img src="https://github.com/user-attachments/assets/84ff7855-8180-4893-8217-00228d37903a" width="180"/> | <img src="https://github.com/user-attachments/assets/d3339fd2-7753-41e2-b7d8-48154ad87b63" width="180"/> | <img src="https://github.com/user-attachments/assets/b64013c9-2152-40ca-b119-00e8826ee18f" width="180"/> | <img src="https://github.com/user-attachments/assets/d3339fd2-7753-41e2-b7d8-48154ad87b63" width="180"/> |
 
 ---
