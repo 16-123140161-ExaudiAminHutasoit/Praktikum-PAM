@@ -17,8 +17,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            // MENGGUNAKAN koinViewModel() BUKAN viewModel()
-            // Agar semua dependency (SQLDelight, DataStore, dll) disuntikkan secara otomatis
             val noteViewModel: NoteViewModel = koinViewModel()
             val themeMode by noteViewModel.themeModeFlow.collectAsState(initial = "system")
             

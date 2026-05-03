@@ -1,4 +1,4 @@
-# Tugas Praktikum 9
+# Tugas Praktikum 9 - Pengembangan Aplikasi Mobile
 
 **Nama : Exaudi Amin Hutasoit**
 
@@ -6,68 +6,63 @@
 
 **Kelas : PAM RA**
 
-## Deskripsi
+## Deskripsi Tugas
+Integrasi AI (Google Gemini) ke dalam aplikasi Android "MyProfilApp" untuk fitur **Smart Chatbot/Assistant**. Fitur ini membantu pengguna dalam mengelola catatan, memberikan ringkasan, dan menjawab pertanyaan terkait produktivitas.
 
-Aplikasi **Notes App** telah ditingkatkan pada Minggu 9 dengan integrasi **AI Assistant (Google Gemini)**. Aplikasi ini memungkinkan pengguna untuk berinteraksi dengan asisten pintar yang dapat membantu dalam mengelola catatan, memberikan ringkasan, atau menjawab pertanyaan produktivitas secara real-time.
+---
 
-## Arsitektur AI Integration
+## Kriteria Penilaian & Implementasi
 
-Integrasi AI menggunakan arsitektur berlapis untuk memastikan keamanan dan performa:
+### 1. AI Integration (30%)
+*   **Service Layer**: Menggunakan `GeminiService.kt` untuk menangani komunikasi API secara terpisah.
+*   **Networking**: Implementasi menggunakan **Ktor Client** dengan konfigurasi timeout dan `ContentNegotiation` JSON.
+*   **Dependency Injection**: Seluruh komponen didefinisikan dalam `AppModule.kt` menggunakan **Koin**.
 
-```mermaid
-graph LR
-    subgraph UI_Layer [UI Layer]
-        CS[ChatScreen]
-        TI[TypingIndicator]
-    end
+### 2. Prompt Engineering (25%)
+*   **System Prompt**: Menggunakan instruksi sistem yang terdefinisi di `SystemPrompts.kt` untuk mengatur persona AI sebagai asisten aplikasi catatan yang profesional.
+*   **Model**: Menggunakan model terbaru `gemini-1.5-flash` untuk respon yang cepat dan akurat.
 
-    subgraph Logic_Layer [ViewModel & Repository]
-        CVM[ChatViewModel]
-        AR[AIRepository]
-    end
+### 3. Error Handling (20%)
+*   **Graceful Handling**: Menangkap error jaringan, API limit (429), dan invalid key (403/404) menggunakan blok `runCatching`.
+*   **Retry Logic**: UI menyediakan tombol **"Retry"** jika terjadi kesalahan pengiriman pesan agar pengguna tidak perlu mengetik ulang.
 
-    subgraph Service_Layer [Network Service]
-        GS[GeminiService]
-        KC[Ktor HttpClient]
-    end
+### 4. UI/UX (15%)
+*   **Loading State**: Implementasi `TypingIndicator` dengan animasi bergerak saat AI sedang memproses.
+*   **Responsive Chat**: Menggunakan chat bubble dengan perbedaan warna kontras antara user (Primary) dan AI (SurfaceVariant).
+*   **Clear Chat**: Fitur untuk menghapus riwayat percakapan.
 
-    subgraph External [External API]
-        GAI[Google Gemini API]
-    end
+### 5. Code Quality (10%)
+*   **Architecture**: Mengikuti pola MVVM (Model-View-ViewModel) dengan pembagian folder `model`, `viewmodel`, `repository`, dan `network`.
+*   **Security**: API Key disimpan aman di `local.properties` dan diakses melalui `BuildConfig`.
 
-    CS --> CVM
-    CVM --> AR
-    AR --> GS
-    GS --> KC
-    KC --> GAI
-```
+---
 
-## Fitur Utama (Minggu 9)
+## Fitur Bonus (Bonus Points)
+*   **[v] Multi-turn Conversation (+5%)**: AI mampu mengingat konteks percakapan sebelumnya dalam satu sesi menggunakan riwayat pesan (`conversationHistory`).
 
-1.  **Smart Chatbot Assistant**: Integrasi Google Gemini API (model `gemini-1.5-flash`) untuk asisten pintar di dalam aplikasi.
-2.  **Multi-turn Conversation**: Asisten mampu mengingat konteks percakapan sebelumnya untuk memberikan respon yang lebih relevan.
-3.  **System Prompt Engineering**: Implementasi instruksi sistem yang membuat AI berperan khusus sebagai asisten aplikasi catatan.
-4.  **Graceful Error Handling & Retry**: Penanganan error jaringan yang informatif dilengkapi dengan tombol **Retry** untuk mencoba kembali permintaan yang gagal.
-5.  **Secure API Management**: Penyimpanan API Key yang aman di `local.properties` dan diakses melalui `BuildConfig`, tidak diekspos di dalam kode sumber (Git).
-6.  **Responsive UI**: Penggunaan `TypingIndicator` (animasi loading) dan `LazyColumn` yang mendukung pemuatan pesan secara dinamis.
+---
 
-## Cara Menjalankan
+## Cara Instalasi
 
-1. Pilih branch **week-9**.
-2. Dapatkan API Key Gemini di [Google AI Studio](https://aistudio.google.com/).
-3. Buka file `local.properties` di root proyek dan tambahkan:
-   ```properties
-   GEMINI_API_KEY=isi_api_key_anda
-   ```
-4. Jalankan aplikasi.
-5. Klik ikon **AI Chat** (wajah) di pojok kanan atas layar utama untuk membuka asisten.
+1.  Clone repository ini dan masuk ke branch `week-9`.
+2.  Buka [Google AI Studio](https://aistudio.google.com/) untuk mendapatkan API Key.
+3.  Buka file `local.properties` di root project.
+4.  Tambahkan baris berikut:
+    ```properties
+    GEMINI_API_KEY=KODE_API_KEY_ANDA
+    ```
+5.  Lakukan **Build > Rebuild Project** di Android Studio.
+6.  Jalankan aplikasi dan klik ikon **AI Assistant (Wajah)** di Top Bar layar utama.
+
+---
 
 ## Screenshot Aplikasi
 
-| Chat Interface           | Typing Indicator | Error & Retry Logic |
-|------------------------|---|---|
-| ![Chat](chat.png) | ![Typing](typing.png) | ![Retry](retry.png) |
+| Chat Interface | Typing Indicator | Error Handling |
+|--- | --- | --- |
+| ![Chat](chat.png) | ![Typing](typing.png) | ![Error](retry.png) |
 
 ---
-## Demo
+
+## Demo Video
 [Link Video Demo Tugas 9]

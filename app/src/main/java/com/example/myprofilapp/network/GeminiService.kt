@@ -22,7 +22,7 @@ class GeminiService(private val client: HttpClient) {
             return@runCatching "Error: API Key masih kosong. Silakan isi di local.properties dan REBUILD PROJECT."
         }
 
-        // Simpan pesan user ke history
+
         val userContent = Content(parts = listOf(Part(text = prompt)), role = "user")
         
         val request = GeminiRequest(
@@ -45,7 +45,6 @@ class GeminiService(private val client: HttpClient) {
             val assistantContent = geminiResponse.candidates.firstOrNull()?.content
             
             if (assistantContent != null) {
-                // Tambahkan pesan user dan AI ke history jika sukses
                 conversationHistory.add(userContent)
                 conversationHistory.add(assistantContent)
                 assistantContent.parts.firstOrNull()?.text ?: "Jawaban kosong dari AI."
