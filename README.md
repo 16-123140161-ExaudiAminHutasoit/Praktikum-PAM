@@ -41,9 +41,9 @@ Fitur ini membantu pengguna dalam mengelola catatan, memberikan ringkasan, dan m
 
 | 1.Chat Interface | 2. Loading State | 3. Error Handling 
 |---|---|---|
-| <img width="475" height="1054" alt="Cuplikan layar 2026-05-03 212738" src="https://github.com/user-attachments/assets/e554a534-7751-49d3-9ac4-c122b23db088" />
- | <img width="476" height="1052" alt="Cuplikan layar 2026-05-03 213051" src="https://github.com/user-attachments/assets/bd742f25-30b1-440d-81da-90410d13913b" />
- | <img width="472" height="1053" alt="Cuplikan layar 2026-05-03 212903" src="https://github.com/user-attachments/assets/eff389ee-cd20-4d4c-9986-95f59c4847c7" />
+| <img width="200" height="500" alt="Cuplikan layar 2026-05-03 212738" src="https://github.com/user-attachments/assets/e554a534-7751-49d3-9ac4-c122b23db088" />
+ | <img width="200" height="500" alt="Cuplikan layar 2026-05-03 213051" src="https://github.com/user-attachments/assets/bd742f25-30b1-440d-81da-90410d13913b" />
+ | <img width="200" height="500" alt="Cuplikan layar 2026-05-03 212903" src="https://github.com/user-attachments/assets/eff389ee-cd20-4d4c-9986-95f59c4847c7" />
  | 
 
 ---
