@@ -10,6 +10,7 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector?
     object Notes : Screen("notes", "Notes", Icons.Default.List)
     object Favorites : Screen("favorites", "Favorites", Icons.Default.Favorite)
     object Profile : Screen("profile", "Profile", Icons.Default.Person)
+    object Chat : Screen("chat", "AI Chat")
     object Detail : Screen("detail/{noteId}", "Note Detail") {
         fun createRoute(noteId: String) = "detail/$noteId"
     }

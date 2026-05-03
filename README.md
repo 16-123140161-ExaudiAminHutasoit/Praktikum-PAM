@@ -1,4 +1,4 @@
-# Tugas Praktikum 8
+# Tugas Praktikum 9
 
 **Nama : Exaudi Amin Hutasoit**
 
@@ -8,75 +8,66 @@
 
 ## Deskripsi
 
-Aplikasi **Notes App** telah ditingkatkan pada Minggu 8 dengan fokus pada implementasi **Dependency Injection (Koin)** dan **Fitur Spesifik Platform** (Platform Specific Features). Aplikasi sekarang memiliki manajemen dependensi yang terpusat dan mampu mendeteksi informasi perangkat serta status jaringan secara real-time.
+Aplikasi **Notes App** telah ditingkatkan pada Minggu 9 dengan integrasi **AI Assistant (Google Gemini)**. Aplikasi ini memungkinkan pengguna untuk berinteraksi dengan asisten pintar yang dapat membantu dalam mengelola catatan, memberikan ringkasan, atau menjawab pertanyaan produktivitas secara real-time.
 
-## Arsitektur Aplikasi
+## Arsitektur AI Integration
 
-Aplikasi ini menggunakan arsitektur **MVVM** yang digabungkan dengan **Dependency Injection (Koin)** sesuai dengan skema berikut:
+Integrasi AI menggunakan arsitektur berlapis untuk memastikan keamanan dan performa:
 
 ```mermaid
-graph TD
-    %% Koin Layer
-    subgraph Koin [Koin Dependency Injection]
-        KM[Koin Modules]
+graph LR
+    subgraph UI_Layer [UI Layer]
+        CS[ChatScreen]
+        TI[TypingIndicator]
     end
 
-    %% UI Layer
-    subgraph UI [UI Layer]
-        direction LR
-        SS[Settings Screen]
-        NI[NetworkStatus Indicator]
-        NS[NotesScreen]
+    subgraph Logic_Layer [ViewModel & Repository]
+        CVM[ChatViewModel]
+        AR[AIRepository]
     end
 
-    %% ViewModel Layer
-    subgraph VM_Layer [ViewModel Layer]
-        direction LR
-        NVM[NoteViewModel]
+    subgraph Service_Layer [Network Service]
+        GS[GeminiService]
+        KC[Ktor HttpClient]
     end
 
-    %% Platform Layer
-    subgraph Platform [Platform Layer]
-        direction LR
-        DI[DeviceInfo expect/actual]
-        NM[NetworkMonitor expect/actual]
+    subgraph External [External API]
+        GAI[Google Gemini API]
     end
 
-    %% Flow Panah
-    KM --> VM_Layer
-    KM --> Platform
-
-    SS --> NVM
-    NI --> NVM
-    NS --> NVM
-
-    NVM --> DI
-    NVM --> NM
+    CS --> CVM
+    CVM --> AR
+    AR --> GS
+    GS --> KC
+    KC --> GAI
 ```
 
-## Fitur Utama (Minggu 8)
+## Fitur Utama (Minggu 9)
 
-1.  **Dependency Injection (Koin)**: Seluruh objek (Database, Repository, Settings, Platform Features, dan ViewModel) dibuat dan di-inject secara otomatis menggunakan Koin untuk meningkatkan efisiensi memori dan kebersihan kode.
-2.  **Fitur Platform (expect/actual pattern)**: 
-    *   Implementasi `DeviceInfo` untuk mengambil informasi teknis hardware Android.
-    *   Implementasi `NetworkMonitor` untuk memantau koneksi internet.
-3.  **Indikator Jaringan**: Banner status (ONLINE/OFFLINE) yang muncul di layar utama sesuai dengan kondisi internet perangkat.
-4.  **Informasi Perangkat**: Bagian baru di menu Settings yang menampilkan Manufaktur, Model, Versi OS, dan Level Baterai perangkat.
+1.  **Smart Chatbot Assistant**: Integrasi Google Gemini API (model `gemini-1.5-flash`) untuk asisten pintar di dalam aplikasi.
+2.  **Multi-turn Conversation**: Asisten mampu mengingat konteks percakapan sebelumnya untuk memberikan respon yang lebih relevan.
+3.  **System Prompt Engineering**: Implementasi instruksi sistem yang membuat AI berperan khusus sebagai asisten aplikasi catatan.
+4.  **Graceful Error Handling & Retry**: Penanganan error jaringan yang informatif dilengkapi dengan tombol **Retry** untuk mencoba kembali permintaan yang gagal.
+5.  **Secure API Management**: Penyimpanan API Key yang aman di `local.properties` dan diakses melalui `BuildConfig`, tidak diekspos di dalam kode sumber (Git).
+6.  **Responsive UI**: Penggunaan `TypingIndicator` (animasi loading) dan `LazyColumn` yang mendukung pemuatan pesan secara dinamis.
 
 ## Cara Menjalankan
 
-1. Pilih branch **week-8**.
-2. Buka proyek di Android Studio.
-3. Tunggu **Gradle Sync** hingga selesai.
-4. Jalankan aplikasi pada emulator atau perangkat Android asli.
-5. Untuk mengetes status jaringan, aktifkan dan nonaktifkan **Mode Pesawat**.
+1. Pilih branch **week-9**.
+2. Dapatkan API Key Gemini di [Google AI Studio](https://aistudio.google.com/).
+3. Buka file `local.properties` di root proyek dan tambahkan:
+   ```properties
+   GEMINI_API_KEY=isi_api_key_anda
+   ```
+4. Jalankan aplikasi.
+5. Klik ikon **AI Chat** (wajah) di pojok kanan atas layar utama untuk membuka asisten.
 
 ## Screenshot Aplikasi
 
-| Network ONLINE         | Network OFFLINE | Device Information |
+| Chat Interface           | Typing Indicator | Error & Retry Logic |
 |------------------------|---|---|
-| ![Online](online.png)) | ![Offline](offline.png) | ![Device Info](device_info.png) |
+| ![Chat](chat.png) | ![Typing](typing.png) | ![Retry](retry.png) |
 
 ---
 ## Demo
-https://youtu.be/oLEFv34zwN8 
+[Link Video Demo Tugas 9]

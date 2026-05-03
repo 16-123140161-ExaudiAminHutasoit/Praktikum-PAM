@@ -16,8 +16,7 @@ sealed class NewsUiState {
     data class Error(val message: String) : NewsUiState()
 }
 
-class NewsViewModel : ViewModel() {
-    private val repository = NewsRepository()
+class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow<NewsUiState>(NewsUiState.Loading)
     val uiState: StateFlow<NewsUiState> = _uiState.asStateFlow()

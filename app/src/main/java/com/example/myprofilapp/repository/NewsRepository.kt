@@ -1,11 +1,11 @@
 package com.example.myprofilapp.repository
 
 import com.example.myprofilapp.model.Article
-import com.example.myprofilapp.network.client
+import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 
-class NewsRepository {
+class NewsRepository(private val client: HttpClient) {
     suspend fun fetchArticles(): List<Article> {
         // Ambil data asli dari API (syarat Networking)
         val rawArticles: List<Article> = client.get("https://jsonplaceholder.typicode.com/posts").body()

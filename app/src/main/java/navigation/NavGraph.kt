@@ -10,6 +10,7 @@ import androidx.navigation.compose.*
 import screen.*
 import com.example.myprofilapp.ProfileViewModel
 import com.example.myprofilapp.NoteViewModel
+import com.example.myprofilapp.viewmodel.ChatViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -20,6 +21,7 @@ fun NavGraph() {
     val noteViewModel: NoteViewModel = koinViewModel()
     // For now keeping ProfileViewModel as is or you can also move it to Koin later
     val profileViewModel: ProfileViewModel = koinViewModel() 
+    val chatViewModel: ChatViewModel = koinViewModel()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -83,6 +85,9 @@ fun NavGraph() {
             composable(Screen.EditNote.route) { backStackEntry ->
                 val noteId = backStackEntry.arguments?.getString("noteId")
                 AddEditNoteScreen(navController, noteViewModel, noteId)
+            }
+            composable(Screen.Chat.route) {
+                ChatScreen(chatViewModel, onBackClick = { navController.popBackStack() })
             }
         }
     }
