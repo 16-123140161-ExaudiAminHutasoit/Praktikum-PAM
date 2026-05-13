@@ -39,7 +39,7 @@ Menggunakan **Compose Test Rule** untuk menguji tampilan antarmuka.
 ## 3. Laporan Code Coverage
 Minimal syarat coverage adalah 60%. Berikut adalah hasil coverage untuk business logic (Repository & ViewModel):
 
-![Test Coverage Report]([])
+
 
 ## 4. Video Demo 
 Video demo menjalankan semua test dan menunjukkan hasil coverage dapat dilihat pada file:
