@@ -7,7 +7,7 @@ import com.example.myprofilapp.database.NoteEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 
-class NoteRepository(database: NoteDatabase) {
+open class NoteRepository(database: NoteDatabase) {
     private val queries = database.noteEntityQueries
 
     fun getAllNotes(): Flow<List<NoteEntity>> {

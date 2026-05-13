@@ -26,8 +26,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val appModule = module {
-    // Ktor Client
+val networkModule = module {
     single {
         HttpClient(Android) {
             install(ContentNegotiation) {
@@ -44,26 +43,24 @@ val appModule = module {
             }
         }
     }
+}
 
-    // Services
+val dataModule = module {
     single { GeminiService(get()) }
-
-    // Repositories
     single<AIRepository> { AIRepositoryImpl(get()) }
     single { NoteRepository(get()) }
     single { NewsRepository(get()) }
-
-    // Database & Settings
     single { DatabaseModule.getDatabase(androidContext()) }
     single { SettingsManager(androidContext()) }
-
-    // Platform Features
     single<DeviceInfo> { AndroidDeviceInfo(androidContext()) }
     single<NetworkMonitor> { AndroidNetworkMonitor(androidContext()) }
+}
 
-    // ViewModels
+val viewModelModule = module {
     viewModel { NoteViewModel(androidApplication(), get(), get(), get(), get()) }
     viewModel { ProfileViewModel() }
     viewModel { ChatViewModel(get()) }
     viewModel { NewsViewModel(get()) }
 }
+
+val appModule = listOf(networkModule, dataModule, viewModelModule)

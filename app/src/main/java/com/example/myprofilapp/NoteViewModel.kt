@@ -19,7 +19,7 @@ sealed class NotesUiState {
     object Empty : NotesUiState()
 }
 
-class NoteViewModel(
+open class NoteViewModel(
     application: Application,
     private val repository: NoteRepository,
     private val settingsManager: SettingsManager,
@@ -28,14 +28,14 @@ class NoteViewModel(
 ) : AndroidViewModel(application) {
 
     private val _searchQuery = MutableStateFlow("")
-    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+    open val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     val themeModeFlow: Flow<String> = settingsManager.themeModeFlow
     val sortOrderFlow: Flow<String> = settingsManager.sortOrderFlow
     
-    val isOnline: StateFlow<Boolean> = networkMonitor.isOnline
+    open val isOnline: StateFlow<Boolean> = networkMonitor.isOnline
 
-    val notesState: StateFlow<NotesUiState> = combine(
+    open val notesState: StateFlow<NotesUiState> = combine(
         _searchQuery,
         repository.getAllNotes(),
         sortOrderFlow
