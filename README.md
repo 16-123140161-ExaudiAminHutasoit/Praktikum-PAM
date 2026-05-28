@@ -54,19 +54,6 @@ Inisialisasi dilakukan pada kelas `MainApplication` yang didaftarkan dalam `Andr
 
 ---
 
-## 📊 Test Coverage Report
-Cakupan pengujian (Code Coverage) untuk Business Logic telah mencapai **80%+**, memenuhi syarat minimum 60% dan berpotensi mendapatkan poin bonus.
-
-![Test Coverage Report](screenshot1.png)
-
----
-
-## 🎥 Video Demo
-Link video berdurasi ±45 detik yang menunjukkan proses menjalankan semua test (Run All Tests) dan hasilnya:
-[Klik di sini untuk menonton Video Demo](https://github.com/username/repository/video)
-
----
-
 ## ⚙️ Cara Menjalankan Pengujian
 1. Buka proyek di **Android Studio**.
 2. Untuk menjalankan **Unit & Flow Test**:
