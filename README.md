@@ -36,7 +36,7 @@ Inisialisasi dilakukan pada kelas `MainApplication` yang didaftarkan dalam `Andr
 *Menguji logika bisnis ViewModel menggunakan **MockK** untuk isolasi.*
 - `onSearchQueryChange updates searchQuery state`: Validasi update UI state saat mengetik.
 - `addNote calls repository insertNote`: Memastikan fungsi repositori dipanggil saat tambah data.
-- `deleteNote calls repository deleteNote`: Memastikan fungsi repositori dipanggil saat hapus data.
+- `deleteNote calls repository deleteNote`: Memastikan fungsi hapus terhubung ke repositori.
 - `setSortOrder calls settingsManager`: Validasi penyimpanan preferensi urutan.
 - `setThemeMode calls settingsManager`: Validasi penyimpanan preferensi tema.
 
